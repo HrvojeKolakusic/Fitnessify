@@ -1,0 +1,247 @@
+﻿@model IEnumerable<Fitnessify.Models.Korisnik>
+<br />
+<br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <h2 class="panel-title pull-left" style="margin-left:10px;">
+                <strong>Korisnici</strong>
+            </h2>
+            <button style="margin-right:10px" class="btn btn-primary pull-right" onclick="addNewKorisnik()">New Korisnik</button>
+        </div>
+    </div>
+
+    @if (Model.Count() != 0)
+    {
+        foreach (var item in Model)
+        {
+            <div class="panel-body">
+                <table class="table table-striped table-responsive">
+                    <tbody>
+                        <tr>
+                            <td>Ime : @item.ime </td>
+                            <td>Prezime : @item.prezime </td>
+                            <td>Visina : @item.visina</td>
+                            <td>Tezina : @item.tezina</td>
+                            <td>@Html.ActionLink(" ", "EditKorisnik", new { id = @item.id }, new { @class = "btn btn-warning  btn-sm glyphicon glyphicon-edit" })</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th>Naziv prehrane</th>
+                                            <th>Opis prehrane</th>
+                                            <th>Kalorije</th>
+                                        </tr>
+
+                                        @foreach (var prehrana in item.Prehranas)
+                                        {
+                                    <tr>
+                                        <td>@prehrana.naziv</td>
+                                        <td>@prehrana.opis</td>
+                                        <td>@prehrana.cal</td>
+                                        <td>@Html.ActionLink(" ", "EditPrehrana", new { id = prehrana.id }, new { @class = "btn btn-warning pull-right  btn-sm glyphicon glyphicon-edit" })</td>
+                                        <td>@Html.ActionLink(" ", "DeletePrehrana", new { id = prehrana.id }, new { @class = "btn btn-warning pull-right  btn-sm glyphicon glyphicon-remove" })</td>
+                                    </tr>
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="panel-body">
+            <h3 style="color:red;">Nema korisnika</h3>
+        </div>
+
+    }
+</div>
+
+
+<div class="modal fade" id="newKorisnikModal">
+    <div class="modal-dialog modal-lg" style=" width: 900px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4>Dodaj korisnika</h4>
+            </div>
+            <form id="NewKorisnikForm">
+                <div class="modal-body">
+                    <h5 style="color:#ff6347">Korisnik</h5>
+                    <hr />
+                    <div class="form-horizontal">
+                        <input type="hidden" id="id" />
+                        <div class="form-group">
+                            <label class="control-label col-md-2">
+                                Ime
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" id="ime" name="ime" placeholder="Korisnik Name" class="form-control" />
+                            </div>
+                            <label class="control-label col-md-2">
+                                Prezime
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" id="prezime" name="prezime" placeholder="Korisnik prezime" class="form-control" />
+                            </div>
+                            <label class="control-label col-md-2">
+                                Visina
+                            </label>
+                            <div class="col-md-4">
+                                <input type="number" id="visina" name="visina" placeholder="Korisnik visina" class="form-control" />
+                            </div>
+                            <label class="control-label col-md-2">
+                                Tezina
+                            </label>
+                            <div class="col-md-4">
+                                <input type="number" id="tezina" name="tezina" placeholder="Korisnik tezina" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 style="margin-top:10px;color:#ff6347">Prehrana</h5>
+                    <hr />
+                    <div class="form-horizontal">
+                        <input type="hidden" id="id" />
+                        <div class="form-group">
+                            <label class="control-label col-md-2">
+                                Naziv prehrane
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" id="nazivPrehrane" name="nazivPrehrane" placeholder="Naziv prehrane" class="form-control" />
+                            </div>
+                            <label class="control-label col-md-2">
+                                Opis prehrane
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" id="opisPrehrane" name="opisPrehrane" placeholder="Opis prehrane" class="form-control" />
+                            </div>
+                            <label class="control-label col-md-2">
+                                Kalorije
+                            </label>
+                            <div class="col-md-4">
+                                <input type="number" id="cal" name="cal" placeholder="Kalorije" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-2 col-lg-offset-4">
+                                <a id="addToList" class="btn btn-primary">Dodaj prehranu</a>
+                            </div>
+                        </div>
+
+                        <table id="detailsTable" class="table">
+                            <thead>
+                                <tr>
+                                    <th style="width:30%">Ime prehrane</th>
+                                    <th style="width:30%">Opis prehrane</th>
+                                    <th style="width:30%">Kalorije</th>
+                                    <th style="width:10%"></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">Nazad</button>
+                    <button id="saveKorisnik" type="submit" class="btn btn-danger">Spremi korisnika</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        function addNewKorisnik() {
+            $("#newKorisnikModal").modal();
+        }
+
+        $("#addToList").click(function (e) {
+            e.preventDefault();
+
+            if ($.trim($("#nazivPrehrane").val()) == "" || $.trim($("#opisPrehrane").val()) == "" || $.trim($("#cal").val()) == "") return;
+
+            var nazivPrehrane = $("#nazivPrehrane").val(),
+                opisPrehrane = $("#opisPrehrane").val(),
+                cal = $("#cal").val(),
+                detailsTableBody = $("#detailsTable tbody");
+
+            var prehranaItem = '<tr><td>' + nazivPrehrane + '</td><td>' + opisPrehrane + '</td><td>' + cal + '</td><td><a data-itemId="0" href="#" class="deleteItem">Remove</a></td></tr>';
+            detailsTableBody.append(prehranaItem);
+            clearItem();
+        });
+
+        function clearItem() {
+            $("#nazivPrehrane").val('');
+            $("#opisPrehrane").val('');
+            $("#cal").val('');
+        }
+
+        $(document).on('click', 'a.deleteItem', function (e) {
+            e.preventDefault();
+            var $self = $(this);
+            if ($(this).attr('data-itemId') == "0") {
+                $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
+                    $(this).remove();
+                });
+            }
+        });
+
+        function saveKorisnik(data) {
+            return $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: "/Prehrane/SaveKorisnik",
+                data: data,
+                success: function (result) {
+                    alert(result);
+                    location.reload();
+                },
+                error: function () {
+                    alert("Error!")
+                }
+            });
+        }
+
+        $("#saveKorisnik").click(function (e) {
+            e.preventDefault();
+
+            var prehranaArr = [];
+            prehranaArr.length = 0;
+
+            $.each($("#detailsTable tbody tr"), function () {
+                prehranaArr.push({
+                    naziv: $(this).find('td:eq(0)').html(),
+                    opis: $(this).find('td:eq(1)').html(),
+                    cal: $(this).find('td:eq(2)').html()
+                });
+            });
+
+
+            var data = JSON.stringify({
+                ime: $("#ime").val(),
+                prezime: $("#prezime").val(),
+                visina: $("#visina").val(),
+                tezina: $("#tezina").val(),
+                prehrana: prehranaArr
+            });
+
+            $.when(saveKorisnik(data)).then(function (response) {
+                console.log(response);
+            }).fail(function (err) {
+                console.log(err);
+            });
+        });
+    </script>
+}
+

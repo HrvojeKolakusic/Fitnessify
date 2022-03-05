@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="fitnessModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Korisnik">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="ime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="prezime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="visina" Type="Int32" Nullable="false" />
+    <Property Name="tezina" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Prehranas" Relationship="Self.FK__Prehrana__id_kor__3F466844" FromRole="Korisnik" ToRole="Prehrana" />
+  </EntityType>
+  <EntityType Name="Prehrana">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="id_koris" Type="Guid" />
+    <Property Name="naziv" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="opis" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="cal" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Korisnik" Relationship="Self.FK__Prehrana__id_kor__3F466844" FromRole="Prehrana" ToRole="Korisnik" />
+  </EntityType>
+  <Association Name="FK__Prehrana__id_kor__3F466844">
+    <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="0..1" />
+    <End Role="Prehrana" Type="Self.Prehrana" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Korisnik">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Prehrana">
+        <PropertyRef Name="id_koris" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="fitnessEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Korisniks" EntityType="Self.Korisnik" />
+    <EntitySet Name="Prehranas" EntityType="Self.Prehrana" />
+    <AssociationSet Name="FK__Prehrana__id_kor__3F466844" Association="Self.FK__Prehrana__id_kor__3F466844">
+      <End Role="Korisnik" EntitySet="Korisniks" />
+      <End Role="Prehrana" EntitySet="Prehranas" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

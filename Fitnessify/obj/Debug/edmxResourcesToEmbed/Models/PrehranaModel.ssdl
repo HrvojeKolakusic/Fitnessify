@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="fitnessModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Korisnik">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ime" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="prezime" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="visina" Type="int" Nullable="false" />
+    <Property Name="tezina" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Prehrana">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="id_koris" Type="uniqueidentifier" />
+    <Property Name="naziv" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="opis" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="cal" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Prehrana__id_kor__3F466844">
+    <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="0..1" />
+    <End Role="Prehrana" Type="Self.Prehrana" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Korisnik">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Prehrana">
+        <PropertyRef Name="id_koris" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="fitnessModelStoreContainer">
+    <EntitySet Name="Korisnik" EntityType="Self.Korisnik" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Prehrana" EntityType="Self.Prehrana" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Prehrana__id_kor__3F466844" Association="Self.FK__Prehrana__id_kor__3F466844">
+      <End Role="Korisnik" EntitySet="Korisnik" />
+      <End Role="Prehrana" EntitySet="Prehrana" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

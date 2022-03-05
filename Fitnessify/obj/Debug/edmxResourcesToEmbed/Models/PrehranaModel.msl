@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="fitnessModelStoreContainer" CdmEntityContainer="fitnessEntities">
+    <EntitySetMapping Name="Korisniks">
+      <EntityTypeMapping TypeName="fitnessModel.Korisnik">
+        <MappingFragment StoreEntitySet="Korisnik">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="ime" ColumnName="ime" />
+          <ScalarProperty Name="prezime" ColumnName="prezime" />
+          <ScalarProperty Name="visina" ColumnName="visina" />
+          <ScalarProperty Name="tezina" ColumnName="tezina" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Prehranas">
+      <EntityTypeMapping TypeName="fitnessModel.Prehrana">
+        <MappingFragment StoreEntitySet="Prehrana">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_koris" ColumnName="id_koris" />
+          <ScalarProperty Name="naziv" ColumnName="naziv" />
+          <ScalarProperty Name="opis" ColumnName="opis" />
+          <ScalarProperty Name="cal" ColumnName="cal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
